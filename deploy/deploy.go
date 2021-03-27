@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -12,11 +11,11 @@ func main() {
 	var loggerSourceCode string
 	var e error
 	var b []byte
-	if b, e = ioutil.ReadFile("./pkg/logg/deploy/template.go"); e != nil {
+	if b, e = ioutil.ReadFile("./deploy/template.go"); e != nil {
 		panic(e)
 	}
 	loggerSourceCode = string(b)
-	fmt.Fprintln(os.Stderr, loggerSourceCode)
+	I.Ln(loggerSourceCode)
 	if e = filepath.Walk(
 		".",
 		func(path string, info os.FileInfo, E error) (e error) {
@@ -27,12 +26,11 @@ func main() {
 				if e := ioutil.WriteFile(path, []byte(
 						strings.Replace(loggerSourceCode, "package main", "package "+split[len(split)-1], 1),
 					), 0666); e != nil {
-					fmt.Fprintln(os.Stderr, e.Error())
+					I.Ln(e.Error())
 				}
 			}
 			return nil
 		},
-	); e != nil {
-		fmt.Fprintln(os.Stderr, e.Error())
+	); E.Chk(e) {
 	}
 }
