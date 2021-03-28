@@ -12,7 +12,7 @@ import (
 	"time"
 	"unsafe"
 	
-	"github.com/p9c/pod/version"
+	"github.com/p9c/log/version"
 	
 	"github.com/davecgh/go-spew/spew"
 	"github.com/gookit/color"
