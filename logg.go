@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 	"runtime"
 	"sort"
 	"strings"
@@ -208,7 +209,10 @@ func AddLoggerSubsystem(pathBase string) (subsystem string) {
 	if ok {
 		r := strings.Split(file, pathBase)
 		// fmt.Fprintln(os.Stderr, version.PathBase, r)
-		fromRoot := r[1]
+		fromRoot := filepath.Base(file)
+		if len(r) > 1 {
+			fromRoot = r[1]
+		}
 		split := strings.Split(fromRoot, "/")
 		// fmt.Fprintln(os.Stderr, version.PathBase, "file", file, r, fromRoot, split)
 		subsystem = strings.Join(split[:len(split)-1], "/")
