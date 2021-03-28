@@ -12,8 +12,6 @@ import (
 	"time"
 	"unsafe"
 	
-	"github.com/p9c/log/version"
-	
 	"github.com/davecgh/go-spew/spew"
 	"github.com/gookit/color"
 	uberatomic "go.uber.org/atomic"
@@ -202,13 +200,13 @@ func SortSubsystemsList() {
 
 // AddLoggerSubsystem adds a subsystem to the list of known subsystems and returns the
 // string so it is nice and neat in the package logg.go file
-func AddLoggerSubsystem() (subsystem string) {
+func AddLoggerSubsystem(pathBase string) (subsystem string) {
 	// var split []string
 	var ok bool
 	var file string
 	_, file, _, ok = runtime.Caller(1)
 	if ok {
-		r := strings.Split(file, version.PathBase)
+		r := strings.Split(file, pathBase)
 		// fmt.Fprintln(os.Stderr, version.PathBase, r)
 		fromRoot := r[1]
 		split := strings.Split(fromRoot, "/")

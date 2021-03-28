@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/p9c/log/version"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -23,9 +24,13 @@ func main() {
 			if strings.HasSuffix(path, targetFilename) {
 				pkgName := strings.Split(path, targetFilename)[0]
 				split := strings.Split(pkgName, string(filepath.Separator))
+				_ = "github.com/p9c/log"
+				editedFile := strings.Replace(loggerSourceCode, "package main", "package "+split[len(split)-1], 1)
+				editedFile = strings.Replace(loggerSourceCode, "github.com/p9c/log", version.URL, 1)
 				if e := ioutil.WriteFile(path, []byte(
-						strings.Replace(loggerSourceCode, "package main", "package "+split[len(split)-1], 1),
-					), 0666); e != nil {
+					editedFile,
+				), 0666,
+				); e != nil {
 					I.Ln(e.Error())
 				}
 			}
